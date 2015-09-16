@@ -26,6 +26,8 @@ export default Base.extend({
   */
   serverTokenEndpoint: '/api-token-auth/',
 
+  jsonRootObjectKey: 'user',
+
   /**
     The attribute-name that is used for the identification field when sending the
     authentication data to the server.
@@ -146,10 +148,12 @@ export default Base.extend({
     @return {object} An object with properties for authentication.
   */
   getAuthenticateData: function(credentials) {
+    var authenticationRoot = {};
     var authentication = {};
     authentication[this.passwordField] = credentials.password;
     authentication[this.identificationField] = credentials.identification;
-    return authentication;
+    authenticationRoot[this.jsonRootObjectKey] = authentication;
+    return authenticationRoot;
   },
 
   /**
